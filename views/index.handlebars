@@ -1,0 +1,104 @@
+
+{{> header}}
+
+{{#unless single}}
+
+<div id="custom-background">
+
+    <img src="/public/images/bg.png">
+
+</div>
+
+<button type="button" id="create-twit-button"><i class="fas fa-bullhorn"></i></button>
+
+<div id="modal-backdrop" class="hidden"></div>
+
+<div id="create-twit-modal" class="hidden">
+
+    <div class="modal-dialog">
+
+        <div class="modal-header">
+        
+            <h3>Hackathon Participant Application</h3>
+        
+            <button type="button" class="modal-close-button">&times;</button>
+        
+        </div>
+
+        <div class="modal-body">
+            
+            <div class="app-input-element">
+
+                <label for="first-name">What's your first name?</label>
+                <input type="text" id="first-name">
+
+            </div>
+
+            <div class="app-input-element">
+
+                <label for="last-name">What's your last name?</label>
+                <input type="text" id="last-name">
+
+            </div>
+
+            <div class="app-input-element">
+
+                <label for="email-address">Which email address should we use?</label>
+                <input type="email" id="email-address">
+
+            </div>
+
+            <div class="app-input-element">
+            
+                <label for="phone-number">What is your phone number?</label>
+                <input type="text" id="phone-number">
+            
+            </div>
+
+            <div class="app-input-element">
+
+                <label for="college-name">What college/university do you currently attend?</label>
+                <textarea id="college-name"></textarea>
+
+            </div>
+
+            <div class="app-input-element">
+
+                <label for="college-major">What is your major?</label>
+                <textarea id="college-major"></textarea>
+
+            </div>
+
+            <div class="app-input-element">
+
+                <label for="grad-year">What is your expected graduation year?</label>
+                <textarea id="grad-year"></textarea>
+
+            </div>
+
+            <div class="app-input-element">
+
+                <form action="">
+
+                    <input type="radio" name="gender" value="male">Male<br>
+                    <input type="radio" name="gender" value="male">Male<br>
+                    <input type="radio" name="gender" value="male">Male<br>
+
+                </form>
+                
+            </div>
+
+        </div>
+
+        <div class="modal-footer">
+        
+            <button type="button" class="modal-cancel-button">Cancel</button>
+            <button type="button" class="modal-accept-button">Submit</button>
+        
+        </div>
+    
+    </div>
+
+</div>
+
+{{/unless}}
