@@ -1,4 +1,11 @@
 
+var path = require('path');
+var express = require('express');
+
+var exphbs = require('express-handlebars');
+
+var app = express();
+
 var MongoClient = require('mongodb').MongoClient;
 
 var mongoHost = 'classmongo.engr.oregonstate.edu';
