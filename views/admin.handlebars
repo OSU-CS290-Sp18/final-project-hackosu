@@ -1,0 +1,29 @@
+
+<header>
+
+    <nav class="navbar navbar-default navbar-fixed-top">
+        <div class="container-fluid nav-custom-background">
+            <div class="navbar-header">
+                <a class="navbar-brand nav-color header-font" href="#" id="home">HackOSU</a>
+            </div>
+            
+            <ul class="nav navbar-nav navbar-right nav-color">
+                <li class="navitem navbar-search">
+                    <input type="text" id="navbar-search-input" placeholder="Search...">
+                    <button type="button" id="navbar-search-button"><i class="fas fa-search"></i></button>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+</header>
+
+<main class="participants-container">
+
+    {{#each participants}}
+
+        {{> addNewParticipant}}
+
+    {{/each}}
+
+</main>

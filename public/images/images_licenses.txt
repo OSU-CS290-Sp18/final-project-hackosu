@@ -1,0 +1,15 @@
+
+index-bg.jpg
+
+url: https://wallpaperscraft.com/download/minecraft_planet_cube_cubes_world_2228/3840x2400
+license: no license
+
+admin-bg.jpg
+
+url: https://wallpaperscraft.com/download/beach_ocean_sand_palm_trees_bungalows_95633/3840x2400
+license: no license
+
+reg-form-bg.jpg
+
+url: https://wallpaperscraft.com/download/apple_mac_apple_ii_1977_macintosh_94603/3840x2400
+license: no license
