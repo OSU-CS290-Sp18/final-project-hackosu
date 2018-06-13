@@ -9,11 +9,11 @@ var port = process.env.PORT || 3000;
 
 var MongoClient = require('mongodb').MongoClient;
 
-var mongoHost = process.env.MONGO_HOST;
+var mongoHost = process.env.MONGO_HOST || classmongo.engr.oregonstate.edu;
 var mongoPort = process.env.MONGO_PORT || 27017;
-var mongoUsername = process.env.USER;
-var mongoPassword = process.env.MONGO_PASSWORD;
-var mongoDBName = process.env.MONGO_DB_NAME;
+var mongoUsername = process.env.USER || cs290_hazratie;
+var mongoPassword = process.env.MONGO_PASSWORD || cs290_hazratie;
+var mongoDBName = process.env.MONGO_DB_NAME || cs290_hazratie;
 
 var mongoURL = 'mongodb://' + mongoUsername + ':' + mongoPassword + 
                '@' + mongoHost + ':' + mongoPort + '/' + mongoDBName;
@@ -37,9 +37,7 @@ app.get('/', function(req, res){
 
         else
         {
-            res.status(200).render('index', {
-
-            });
+            res.status(200).render('index');
         }
     });
 });
