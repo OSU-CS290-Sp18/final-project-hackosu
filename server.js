@@ -13,9 +13,9 @@ var mongoHost = process.env.MONGO_HOST || classmongo.engr.oregonstate.edu;
 var mongoPort = process.env.MONGO_PORT || 27017;
 var mongoUsername = process.env.USER || cs290_hazratie;
 var mongoPassword = process.env.MONGO_PASSWORD || cs290_hazratie;
-var mongoDBName = process.env.MONGO_DB_NAME || cs290_hazratie;
+var mongoDBName = process.env.MONGO_DB || cs290_hazratie;
 
-var mongoURL = 'mongodb://' + mongoUsername + ':' + mongoPassword + 
+var mongoURL = "mongodb://" + mongoUsername + ':' + mongoPassword + 
                '@' + mongoHost + ':' + mongoPort + '/' + mongoDBName;
 
 var mongoDB = null;
