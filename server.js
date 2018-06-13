@@ -44,6 +44,12 @@ app.get('/', function(req, res){
     });
 });
 
+app.get('/admin', function(req, res){
+    res.status(200).render('admin', {
+        
+    });
+});
+
 //404 Page Displayed
 app.get('*', function(req,res){
 	res.status(404).render("404");

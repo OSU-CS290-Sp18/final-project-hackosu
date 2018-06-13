@@ -151,9 +151,6 @@ function navbarItems(){
   var faqs = document.getElementById('faqs');
   var sponsors = document.getElementById('sponsors');
   var contacts = document.getElementById('contacts');
-  var adminAccess = document.getElementById('admin');
-
-
 }
 
 /*
