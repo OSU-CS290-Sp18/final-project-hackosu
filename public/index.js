@@ -1,197 +1,84 @@
 
-function insertNewParticipant(twitText, twitAuthor){
+document.getElementById('submit-new-registration').addEventListener('click', checkRegistration);
 
-  var newParticipant = Handlebars.templates.addNewParticipant;
-  
-  var participantContexts = newParticipant({
+var first = document.getElementById('first-name').value;
+var last = document.getElementById('last-name').value;
+var city = document.getElementById('from-city').value;
+var school = document.getElementById('college-name').value;
+var major = document.getElementById('college-major').value;
+var email = document.getElementById('email-address').value;
+var phone = document.getElementById('phone-number').value;
+var bday = document.getElementById('b-day').value;
+var gender = document.getElementById('gender').value;
+var ethnicity = document.getElementById('race').value;
 
-    text: twitText,
-    author: twitAuthor
-
-  });
-
-  var appContainer = document.querySelector('.participants-container');
-  
-  appContainer.insertAdjacentHTML('beforeend', participantContexts);
-}
-
-var applicationsArray = [];
-
-function handleModalAcceptClick(){
-
-  var fName = document.getElementById('first-name').value;
-  var lName = document.getElementById('last-name').value;
-  var email = document.getElementById('email-address').value;
-  var phone = document.getElementById('phone-number').value;
-  var cName = document.getElementById('college-name').value;
-  var cMajor = document.getElementById('college-major').value;
-  var gYear = document.getElementById('grad-year').value;
-  var sex = document.getElementById('gender').value;
-  var race = document.getElementById('race').value;
-  var tCity = document.getElementById('from-city').value;
-  var cYrs = document.getElementById('college-years').value;
-
-  if (fName && lName && email && phone && cName && cMajor && gYear && sex && 
-      race && tCity && cYrs)
+function checkRegistration()
+{
+  if(first == "" || last == "" || city == "" || school == "" || major == "" ||
+     email == "" || phone == "" || bday == "" || gender == "" || ethnicity == "" )
   {
-    applicationsArray.push({
-      first_name: fName,
-      last_name: lName,
-      email_address: email,
-      phone_number: phone,
-      college_name: cName,
-      college_major: cMajor,
-      graduation_year: gYear,
-      gender: sex,
-      race_ethnicity: race,
-      travelling_from_city: tCity,
-      years_in_college: cYrs
-    });
-
-    clearSearchAndReinsertTwits();
-
-    hideCreateTwitModal();
-  } 
-  else 
-    alert('You have one or more missing inputs!');
-}
-
-function clearSearchAndReinsertTwits(){
-  document.getElementById('navbar-search-input').value = "";
-  doSearchUpdate();
-}
-
-function showRegistrationForm(){
-  var modalBackdrop = document.getElementById('modal-backdrop');
-  var registrationModal = document.getElementById('registration-modal');
-
-  modalBackdrop.classList.remove('hidden');
-  registrationModal.classList.remove('hidden');
-}
-
-function clearRegistrationForm(){
-  var registrationFormElements = document.getElementsByClassName('app-input-element');
-  
-  for(var i = 0; i < registrationFormElements.length; i++)
+    alert("You missed a question!");
+  }
+  else
   {
-    var input = registrationFormElements[i].querySelector('input, textarea, form');
-    input.value = '';
+    console.log("A new participant has registered.");
+    addRegistration();
   }
 }
 
-function hideRegistrationForm(){
-  var modalBackdrop = document.getElementById('modal-backdrop');
-  var registrationModal = document.getElementById('registration-modal');
+function addRegistration()
+{
+  let request = new XMLHttpRequest();
+  let url = "/addParticipant";
+  request.open("POST", url);
 
-  modalBackdrop.classList.add('hidden');
-  registrationModal.classList.add('hidden');
+  let participantData = {
+    first: document.getElementById('first-name').value,
+    last: document.getElementById('last-name').value,
+    city: document.getElementById('from-city').value,
+    school: document.getElementById('college-name').value,
+    major: document.getElementById('college-major').value,
+    email: document.getElementById('email-address').value,
+    phone: document.getElementById('phone-number').value,
+    bday: document.getElementById('b-day').value,
+    gender: document.getElementById('gender').value,
+    ethnicity: document.getElementById('race').value
+  }
 
-  clearRegistrationForm();
-}
+  let requestBody = JSON.stringify(participantData);
 
-function twitMatchesSearchQuery(twit, searchQuery){
-  if (!searchQuery)
-    return true;
+  request.addEventListener('load', function(event) {
+    if(event.target.status === 200)
+    {
+      let newParticipant = Handlebars.templates.addNewParticipant;
 
-  searchQuery = searchQuery.trim().toLowerCase();
+      let adminParticipantsData = newParticipant({
 
-  return (twit.author + " " + twit.text).toLowerCase().indexOf(searchQuery) >= 0;
-}
+        //(Contexts used in addNewParticipants.handlebars): (Stored data from server)
 
-function doSearchUpdate() {
-  var searchQuery = document.getElementById('navbar-search-input').value;
+        first: first,
+        last: last,
+        city: city,
+        school: schoo,
+        major: major,
+        email: email,
+        phone: phone,
+        bday: bday,
+        gender: gender,
+        ethnicity: ethnicity
 
-  var twitContainer = document.querySelector('.participants-container');
-  if (twitContainer) {
-    while (twitContainer.lastChild) {
-      twitContainer.removeChild(twitContainer.lastChild);
+      });
+
+      let participantsContainer = document.querySelector('.participants-container');
+
+      participantsContainer.insertAdjacentHTML('beforeend', adminParticipantsData);
     }
-  }
-
-  /*
-   * Loop through the collection of all twits and add twits back into the DOM
-   * if they match the current search query.
-   */
-  allApplications.forEach(function (twit) {
-    if (twitMatchesSearchQuery(twit, searchQuery)) {
-      insertNewTwit(twit.text, twit.author);
+    else
+    {
+      alert("--404-- AdminAccess failed to load Participants Data");
     }
-  });
+  })
 
+  request.setRequestHeader('Content-Type', 'application/json');
+  request.send(requestBody);
 }
-
-
-/*
- * This function parses an existing DOM element representing a single twit
- * into an object representing that twit and returns that object.  The object
- * is structured like this:
- *
- * {
- *   text: "...",
- *   author: "..."
- * }
- */
-function parseTwitElem(twitElem){
-
-  var twit = {};
-
-  var twitTextElem = twitElem.querySelector('.twit-text');
-  twit.text = twitTextElem.textContent.trim();
-
-  var twitAttributionLinkElem = twitElem.querySelector('.twit-attribution a');
-  twit.author = twitAttributionLinkElem.textContent.trim();
-
-  return twit;
-}
-
-function navbarItems(){
-  var home = document.getElementById('home');
-  var about = document.getElementById('about');
-  var schedule = document.getElementById('schedule');
-  var faqs = document.getElementById('faqs');
-  var sponsors = document.getElementById('sponsors');
-  var contacts = document.getElementById('contacts');
-}
-
-/*
- * Wait until the DOM content is loaded, and then hook up UI interactions, etc.
- */
-window.addEventListener('DOMContentLoaded', function () {
-
-  var twitElemsCollection = document.getElementsByClassName('twit');
-  for (var i = 0; i < twitElemsCollection.length; i++) {
-    allApplications.push(parseTwitElem(twitElemsCollection[i]));
-  }
-
-  var createTwitButton = document.getElementById('create-twit-button');
-  if (createTwitButton)
-  {
-    createTwitButton.addEventListener('click', showRegistrationForm);
-  }
-
-  var modalCloseButton = document.querySelector('#create-twit-modal .modal-close-button');
-  if (modalCloseButton) {
-    modalCloseButton.addEventListener('click', hideCreateTwitModal);
-  }
-
-  var modalCancalButton = document.querySelector('#create-twit-modal .modal-cancel-button');
-  if (modalCancalButton) {
-    modalCancalButton.addEventListener('click', hideCreateTwitModal);
-  }
-
-  var modalAcceptButton = document.querySelector('#create-twit-modal .modal-accept-button');
-  if (modalAcceptButton) {
-    modalAcceptButton.addEventListener('click', handleModalAcceptClick);
-  }
-
-  var searchButton = document.getElementById('navbar-search-button');
-  if (searchButton) {
-    searchButton.addEventListener('click', doSearchUpdate);
-  }
-
-  var searchInput = document.getElementById('navbar-search-input');
-  if (searchInput) {
-    searchInput.addEventListener('input', doSearchUpdate);
-  }
-
-});
