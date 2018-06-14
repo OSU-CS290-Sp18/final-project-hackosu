@@ -1,31 +1,78 @@
 
-document.getElementById('submit-new-registration').addEventListener('click', checkRegistration);
-
-var first = document.getElementById('first-name').value;
-var last = document.getElementById('last-name').value;
-var city = document.getElementById('from-city').value;
-var school = document.getElementById('college-name').value;
-var major = document.getElementById('college-major').value;
-var email = document.getElementById('email-address').value;
-var phone = document.getElementById('phone-number').value;
-var bday = document.getElementById('b-day').value;
-var gender = document.getElementById('gender').value;
-var ethnicity = document.getElementById('race').value;
-
-function checkRegistration()
+$( "registration-form" ).submit(function( event )
 {
-  if(first == "" || last == "" || city == "" || school == "" || major == "" ||
-     email == "" || phone == "" || bday == "" || gender == "" || ethnicity == "" )
+  if ( 
+        $( "#first-name" ).val() == "" ||
+        $( "#last-name" ).val() == "" ||
+        $( "#from-city" ).val() == "" ||
+        $( "#college-name" ).val() == "" ||
+        $( "#college-major" ).val() == "" ||
+        $( "#email-address" ).val() == "" ||
+        $( "#phone-number" ).val() == "" ||
+        $( "b-day" ).val() == "" ||
+        $( "#gender label.active input" ).val() == "" ||
+        $( "#race label.active input" ).val() ) 
   {
-    alert("You missed a question!");
+      alert("You missed a question!"); 
   }
   else
   {
-    console.log("A new participant has registered.");
-    addRegistration();
-  }
-}
+    let request = new XMLHttpRequest();
+    let url = "/addParticipant";
+    request.open("POST", url);
 
+    let participantData = {
+      first: $( "#first-name" ).val(),
+      last: $( "#last-name" ).val(),
+      city: $( "#from-city" ).val(),
+      school: $( "#college-name" ).val(),
+      major: $( "#college-major" ).val(),
+      email: $( "#email-address" ).val(),
+      phone: $( "#phone-number" ).val(),
+      bday: $( "#b-day" ).val(),
+      gender: $( "#gender label.active input" ).val(),
+      ethnicity: $( "#race label.active input" ).val()
+    }
+
+    request.setRequestHeader('Content-Type', 'application/json');
+    request.send(requestBody);
+
+    let requestBody = JSON.stringify(participantData);
+
+    request.addEventListener('load', function(event) {
+      if(event.target.status === 200)
+      {
+        let newParticipant = Handlebars.templates.addNewParticipant;
+
+        let adminParticipantsData = newParticipant({
+
+          //(Contexts used in addNewParticipants.handlebars): (Stored data from server)
+
+          first: first,
+          last: last,
+          city: city,
+          school: school,
+          major: major,
+          email: email,
+          phone: phone,
+          bday: bday,
+          gender: gender,
+          ethnicity: ethnicity
+
+        });
+
+        let participantsContainer = document.querySelector('.participants-container');
+
+        participantsContainer.insertAdjacentHTML('beforeend', adminParticipantsData);
+      }
+      else
+      {
+        alert("--404-- AdminAccess failed to load Participants Data");
+      }
+    });
+  }
+});
+/*
 function addRegistration()
 {
   let request = new XMLHttpRequest();
@@ -77,8 +124,9 @@ function addRegistration()
     {
       alert("--404-- AdminAccess failed to load Participants Data");
     }
-  })
+  });
 
   request.setRequestHeader('Content-Type', 'application/json');
   request.send(requestBody);
 }
+*/

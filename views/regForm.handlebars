@@ -1,7 +1,7 @@
 
 {{> headerOnly}}
 
-<form class="container">
+<form id="registration-form" class="container" action="javascript:alert( 'Submitted!' );">
 
     <div class="">
     
@@ -76,16 +76,16 @@
 
             <label for="gender-identity">What gender do you identify as?</label>
 
-            <div class="btn-group btn-group-toggle" data-toggle="buttons">
+            <div class="btn-group btn-group-toggle" data-toggle="buttons" id="gender">
 
                 <label class="btn btn-light btn-block">
-                    <input type="radio" name="gender" value="Male">Male
+                    <input type="radio" value="Male">Male
                 </label>
                 <label class="btn btn-light btn-block">
-                    <input type="radio" name="gender" value="Female">Female
+                    <input type="radio" value="Female">Female
                 </label>
                 <label class="btn btn-light btn-block">
-                    <input type="radio" name="gender" value="Other">Other
+                    <input type="radio" value="Other">Other
                 </label>
 
             </div>
@@ -96,28 +96,28 @@
 
             <label for="race-ethnicity">What is your race/ethnicity?</label>
 
-            <div class="btn-group btn-group-toggle" data-toggle="buttons">
+            <div class="btn-group btn-group-toggle" data-toggle="buttons" id="race">
 
                 <label class="btn btn-light btn-block btn-block-race">
-                    <input type="radio" name="race" value="Asian/Pacific Islander/Native Hawaiian">Asian/Pacific Islander/Native Hawaiian
+                    <input type="radio" value="Asian/Pacific Islander/Native Hawaiian">Asian/Pacific Islander/Native Hawaiian
                 </label>
                 <label class="btn btn-light btn-block btn-block-race">
-                    <input type="radio" name="race" value="American Indian/Native Alaskan">American Indian/Native Alaskan
+                    <input type="radio" value="American Indian/Native Alaskan">American Indian/Native Alaskan
                 </label>
                 <label class="btn btn-light btn-block btn-block-race">
-                    <input type="radio" name="race" value="African American/Black">African American/Black
+                    <input type="radio" value="African American/Black">African American/Black
                 </label>                
                 <label class="btn btn-light btn-block btn-block-race">
-                    <input type="radio" name="race" value="Hispanic/Latino">Hispanic/Latino
+                    <input type="radio" value="Hispanic/Latino">Hispanic/Latino
                 </label>
                 <label class="btn btn-light btn-block btn-block-race">
-                    <input type="radio" name="race" value="Caucasian/White">Caucasian/White
+                    <input type="radio" value="Caucasian/White">Caucasian/White
                 </label>
                 <label class="btn btn-light btn-block btn-block-race">
-                    <input type="radio" name="race" value="Other">Other
+                    <input type="radio" value="Other">Other
                 </label>
                 <label class="btn btn-light btn-block btn-block-race">
-                    <input type="radio" name="race" value="No Answer">Prefer to not answer
+                    <input type="radio" value="No Answer">Prefer to not answer
                 </label>
 
             </div>
@@ -139,10 +139,10 @@
 
             <div class="btn-group btn-group-toggle" data-toggle="buttons">
 
-                <input type="radio" class="btn btn-light btn-block active" name="race" value="Freshman" 
-                <input type="radio" class="btn btn-light btn-block" name="race" value="Sophomore" 
-                <input type="radio" class="btn btn-light btn-block" name="race" value="Junior" 
-                <input type="radio" class="btn btn-light btn-block" name="race" value="Senior" 
+                <input type="radio" class="btn btn-light btn-block active" value="Freshman" 
+                <input type="radio" class="btn btn-light btn-block" value="Sophomore" 
+                <input type="radio" class="btn btn-light btn-block" value="Junior" 
+                <input type="radio" class="btn btn-light btn-block" value="Senior" 
             
             </div>
 
@@ -162,8 +162,11 @@
         </div>
 
         -->
+        <div class="form-group">
 
-        <button type="submit" class="btn btn-dark" id="submit-new-registration">Submit</button>
+            <button type="submit" class="btn btn-dark" name="submit">Submit</button>
+
+        </div>
 
     </div>
 

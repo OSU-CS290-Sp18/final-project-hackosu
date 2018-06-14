@@ -23,15 +23,14 @@ var mongoURL = "mongodb://" +
                 mongoUsername + ":" + mongoPassword + "@" + mongoHost + ":" + 
                 mongoPort + "/" + mongoDBName;
 
-var mongodb = null;
+var mongoDB = null;
 
 app.engine("handlebars", exphbs({ defaultLayout: "main" }));
 app.set("view engine", "handlebars");
 
 //admin page redirected
-app.get('/admin', function(req, res) {
-    /*
-    let participantServerData = mongodb.collection('participantsData');
+app.get('/admin', function(req, res, next) {
+    let participantServerData = mongoDB.collection('participantsData');
 
     participantServerData.find().toArray(function(err, participantsData) {
         if(err)
@@ -40,14 +39,12 @@ app.get('/admin', function(req, res) {
         else
             res.status(200).render('admin', { participants : participantsData });
     });
-    */
 
-    res.status(200).render('admin');
+    //res.status(200).render('admin');
 });
 
-app.get('/regForm', function(req, res) {
-    /*
-    let participantDB = mongodb.collection("participantsData");
+app.get('/regForm', function(req, res, next) {
+    let participantDB = mongoDB.collection('participantsData');
 
     participantDB.find().toArray(function(err, participants){
         if(err)
@@ -56,20 +53,36 @@ app.get('/regForm', function(req, res) {
         else
             res.status(200).render('regForm', { participants : participants });
     });
-    */
 
-    res.status(200).render('regForm');
+    //res.status(200).render('regForm');
 });
 
-app.post('/addParticipant', function(req, res) {
+app.get('/', function(req, res){
+    res.status(200).render('index');
+});
+
+app.post('/addParticipant', function(req, res, next) {
     if(!req.body)
         res.status(400).render('400');
     
     else
     {
-        let participant = {};
+        let participant = {
 
-        let newParticipantDB = mongodb.collection('participantsData');
+            first: req.body.first,
+            last: req.body.last,
+            city: req.body.city,
+            school: req.body.school,
+            major: req.body.major,
+            email: req.body.email,
+            phone: req.body.phone,
+            bday: req.body.bday,
+            gender: req.body.gender,
+            ethnicity: req.body.ethnicity
+
+        };
+
+        let newParticipantDB = mongoDB.collection('participantsData');
         newParticipantDB.insertOne(participant, function(err, participant) {
 
             if(err)
@@ -81,31 +94,23 @@ app.post('/addParticipant', function(req, res) {
     }
 });
 
-
-app.get('/', function(req, res){
-    res.status(200).render('index');
-});
-
 app.get('*', function(req, res) {
 	res.status(404).render('404');
 });
 
-//Connect Mongo Client
-/*
-MongoClient.connect(process.env.MONGO_DB_URL, function(err, client) {
+MongoClient.connect(mongoURL, function(err, client) {
     if(err)
-    {
 		throw err;
-    }
 
-    mongoDB = client.db(process.env.MONGO_DB_NAME);
+
+    mongoDB = client.db(process.env.mongoDBname);
 
 	app.listen(port, function() {
 		console.log("-- Server is listening on port == ", port);
 	});
 });
-*/
-
+/*
 app.listen(port, function(){
     console.log("-- Server is listening on port == ", port);
 });
+*/
